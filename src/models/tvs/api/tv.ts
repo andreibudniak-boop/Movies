@@ -130,3 +130,8 @@ export type TvLastPage = {
   currentPage: number;
   nextPage: number;
 };
+
+export type TvPage = {
+  results: Tv[];
+  nextPage?: number;
+};

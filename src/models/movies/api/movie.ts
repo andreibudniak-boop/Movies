@@ -83,3 +83,8 @@ export type MovieLastPage = {
   currentPage: number;
   nextPage: number;
 };
+
+export type MoviePage = {
+  results: Movie[];
+  nextPage?: number;
+};

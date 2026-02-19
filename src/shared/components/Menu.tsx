@@ -10,43 +10,67 @@ import {
 } from '@/shared/components/ui/navigation-menu';
 import GradientLogo from './icons/GradientLogo';
 
-const movies: { title: string; to: string }[] = [
-  {
-    title: 'Популярное',
-    to: '/movie',
-  },
-  {
-    title: 'Сейчас игарет',
-    to: '/movie/now-playing',
-  },
-  {
-    title: 'Скоро выйдет',
-    to: '/movie/upcoming',
-  },
-  {
-    title: 'Лучшие',
-    to: '/movie/top-rated',
-  },
-];
+type Navigation = {
+  movies: {
+    title: string;
+    children: {
+      title: string;
+      to: string;
+    }[];
+  };
+  tvs: {
+    title: string;
+    children: {
+      title: string;
+      to: string;
+    }[];
+  };
+};
 
-const tvs: { title: string; to: string }[] = [
-  {
-    title: 'Популярное',
-    to: '/tv',
+const navigation: Navigation = {
+  movies: {
+    title: 'Фильмы',
+    children: [
+      {
+        title: 'Популярное',
+        to: '/movie',
+      },
+      {
+        title: 'Сейчас игарет',
+        to: '/movie/now-playing',
+      },
+      {
+        title: 'Скоро выйдет',
+        to: '/movie/upcoming',
+      },
+      {
+        title: 'Лучшие',
+        to: '/movie/top-rated',
+      },
+    ],
   },
-  {
-    title: 'В эфире сегодня',
-    to: '/tv/airing-today',
+  tvs: {
+    title: 'Сериалы',
+    children: [
+      {
+        title: 'Популярное',
+        to: '/tv',
+      },
+      {
+        title: 'В эфире сегодня',
+        to: '/tv/airing-today',
+      },
+      {
+        title: 'По телевидению ',
+        to: '/tv/on-the-air',
+      },
+      {
+        title: 'Лучшие',
+        to: '/tv/top-rated',
+      },
+    ],
   },
-  {
-    title: 'По телевидению ',
-    to: '/tv/on-the-air',
-  },
-  {
-    title: 'Лучшие',
-    to: '/tv/top-rated',
-  },
-];
+};
 
 function ListItem({
   title,
@@ -84,7 +108,7 @@ export default function Menu() {
               <NavigationMenuTrigger>Фильмы</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-1 lg:w-[200px]">
-                  {movies.map((movie) => (
+                  {navigation.movies.children.map((movie) => (
                     <ListItem key={movie.title} title={movie.title} href={movie.to} />
                   ))}
                 </ul>
@@ -94,7 +118,7 @@ export default function Menu() {
               <NavigationMenuTrigger>Сериалы</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-1 lg:w-[200px]">
-                  {tvs.map((tv) => (
+                  {navigation.tvs.children.map((tv) => (
                     <ListItem key={tv.title} title={tv.title} href={tv.to} />
                   ))}
                 </ul>

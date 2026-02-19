@@ -1,5 +1,6 @@
 import { useParams } from '@tanstack/react-router';
 import { useMovie } from '../hooks/useMovie';
+import { generateFullPath } from '@/shared/utils/generateFullPath';
 
 export default function Movie() {
   const { movieId } = useParams({ from: '/movie/$movieId' });
@@ -16,7 +17,7 @@ export default function Movie() {
     <div>
       <h1>{movieId}</h1>
       <img
-        src={`https://image.tmdb.org/t/p/w200${data.backdrop_path}`}
+        src={generateFullPath(data.backdrop_path)}
         alt=""
         className="w-full max-w-[200px] h-auto block cursor-pointer"
       />

@@ -3,6 +3,7 @@ import type { TvId } from '../api/tv';
 import { useParams } from '@tanstack/react-router';
 import { axiosInstance } from '@/shared/axiosCreate';
 import { tvKeys } from '../queries/tvKeys';
+import { generateFullPath } from '@/shared/utils/generateFullPath';
 
 const queryFunction = async (tvId: string) => {
   try {
@@ -32,7 +33,7 @@ export default function Movie() {
     <div>
       <h1>{tvId}</h1>
       <img
-        src={`https://image.tmdb.org/t/p/w200${data?.poster_path}`}
+        src={generateFullPath(data?.poster_path as string)}
         alt=""
         className="w-full max-w-[200px] h-auto block cursor-pointer"
       />

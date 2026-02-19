@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import type { CardType } from '@/shared/types/types';
 import FilmCard from '@/shared/components/FilmCard';
 
-type InfiniteQueryOptions<T> = {
+export type InfiniteQueryOptions<T> = {
   queryKey: readonly unknown[];
   queryFn: (context: { pageParam?: number }) => Promise<T>;
   initialPageParam: number;
@@ -51,7 +51,6 @@ export function InfiniteList<Item>({ queryOptions, normalizeItem }: InfiniteList
         const card = normalizeItem(item);
         return <FilmCard key={card.id} {...card} />;
       })}
-
       <div ref={loadMoreRef} className=" w-full h-10 flex justify-center"></div>
     </div>
   );
