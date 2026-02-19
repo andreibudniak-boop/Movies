@@ -1,18 +1,7 @@
 import { Filters } from '../components/Filters';
-import { useMovieList } from '../hooks/useMoviesList';
-import type { MovieListType } from '../api/movie';
 import { Movies } from '../components/Movies';
 
 export default function NowPlaying() {
-  const listType: MovieListType = 'now_playing';
-
-  const { isLoading, error } = useMovieList({
-    listType: listType,
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div>
       <br />
@@ -24,7 +13,7 @@ export default function NowPlaying() {
         <div className=" flex flex-col shadow">
           <Filters />
         </div>
-        <Movies listType={listType} />
+        <Movies listType="now_playing" />
       </div>
     </div>
   );

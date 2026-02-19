@@ -75,3 +75,11 @@ export interface MovieId {
 }
 
 export type MovieListType = 'popular' | 'top_rated' | 'upcoming' | 'now_playing';
+
+export type MovieLastPage = {
+  results: Movie[];
+  totalPages: number;
+  totalResults: number;
+  currentPage: number;
+  nextPage: number;
+};

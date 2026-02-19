@@ -1,19 +1,7 @@
-import { useTvList } from '../hooks/useTvList';
-import type { TvListType } from '../api/tv';
 import { Tvs } from '../components/Tvs';
 import { Filters } from '../components/Filters';
 
 export default function Popular() {
-  const listType: TvListType = 'popular';
-
-  const { isLoading, error } = useTvList({
-    listType: listType,
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  // if (!data) return <div>No data</div>;
-
   return (
     <div>
       <br />
@@ -25,7 +13,7 @@ export default function Popular() {
         <div className=" flex flex-col shadow">
           <Filters />
         </div>
-        <Tvs listType={listType} />
+        <Tvs listType="popular" />
       </div>
     </div>
   );

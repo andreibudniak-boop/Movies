@@ -122,3 +122,11 @@ export interface SpokenLanguage {
 }
 
 export type TvListType = 'popular' | 'top_rated' | 'on_the_air' | 'airing_today';
+
+export type TvLastPage = {
+  results: Tv[];
+  totalPages: number;
+  totalResults: number;
+  currentPage: number;
+  nextPage: number;
+};

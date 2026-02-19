@@ -1,18 +1,7 @@
-import { useMovieList } from '../hooks/useMoviesList';
-import type { MovieListType } from '../api/movie';
 import { Filters } from '../components/Filters';
 import { Movies } from '../components/Movies';
 
 export default function TopRated() {
-  const listType: MovieListType = 'top_rated';
-
-  const { isLoading, error } = useMovieList({
-    listType: listType,
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div>
       <br />
@@ -24,7 +13,7 @@ export default function TopRated() {
         <div className="flex flex-col shadow">
           <Filters />
         </div>
-        <Movies listType={listType} />
+        <Movies listType="top_rated" />
       </div>
     </div>
   );

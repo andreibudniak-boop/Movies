@@ -1,20 +1,7 @@
-import { useMovieList } from '../hooks/useMoviesList';
-
-import type { MovieListType } from '../api/movie';
 import { Movies } from '../components/Movies';
 import { Filters } from '../components/Filters';
 
 export default function Popular() {
-  const listType: MovieListType = 'popular';
-
-  const { isLoading, error } = useMovieList({
-    listType: listType,
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  // if (!data) return <div>No data</div>;
-
   return (
     <div>
       <br />
@@ -26,7 +13,7 @@ export default function Popular() {
         <div className=" flex flex-col shadow">
           <Filters />
         </div>
-        <Movies listType={listType} />
+        <Movies listType="popular" />
       </div>
     </div>
   );

@@ -1,37 +1,60 @@
-import { useEffect, useRef } from 'react';
-import { Grid } from '@/shared/components/Grid';
-import type { TvListType } from '../api/tv';
-import { useTvList } from '../hooks/useTvList';
+import type { Tv, TvListType } from '../api/tv';
+import type { CardType } from '@/shared/types/types';
+import { InfiniteList } from '@/shared/components/InfiniteList';
+import { tvKeys } from '../queries/tvKeys';
+import { axiosInstance } from '@/shared/axiosCreate';
 
 type TvProps = {
   listType: TvListType;
+  language?: string;
 };
 
-export function Tvs({ listType }: TvProps) {
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+type TvPage = {
+  results: Tv[];
+  nextPage?: number;
+};
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useTvList({
-    listType: listType,
-  });
+const normalizeItem = (item: Tv): CardType => {
+  return {
+    id: item.id,
+    title: item.original_name,
+    poster_path: item.poster_path,
+    vote_average: item.vote_average,
+    date: item.first_air_date,
+    link: `/tv/${item.id}`,
+  };
+};
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.5 }
-    );
+const fetchTvList = async ({
+  pageParam = 1,
+  listType,
+  language = 'en-US',
+}: {
+  pageParam?: number;
+  listType: TvListType;
+  language?: string;
+}) => {
+  const response = await axiosInstance.get(
+    `/tv/${listType}?language=${language}&page=${pageParam}`
+  );
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
+  if (response.status === 404) {
+    throw new Error('Ошибка запроса');
+  }
 
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  return {
+    results: response.data.results,
+    nextPage: response.data.page < response.data.total_pages ? response.data.page + 1 : undefined,
+  };
+};
 
-  const allTvs = data?.pages.flatMap((page) => page.results) ?? [];
+export function Tvs({ listType, language = 'en-US' }: TvProps) {
+  const tvListOptions = {
+    queryKey: tvKeys.list({ sort: listType, language }),
+    queryFn: ({ pageParam = 1 }) => fetchTvList({ pageParam, listType, language }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage: TvPage) => lastPage.nextPage,
+  };
 
-  return <Grid items={allTvs} ref={loadMoreRef} />;
+  return <InfiniteList<Tv> queryOptions={tvListOptions} normalizeItem={normalizeItem} />;
 }
