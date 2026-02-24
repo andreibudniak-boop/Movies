@@ -10,7 +10,7 @@ type MoviesLayoutProps = {
 
 export function MoviesLayout({ title, listType }: MoviesLayoutProps) {
   return (
-    <div>
+    <div className="max-w-[1400px] m-auto">
       <ListTitle title={title} />
       <div className="flex flex-row">
         <div className="flex flex-col shadow">

@@ -91,7 +91,7 @@ function ListItem({
 }
 export default function Menu() {
   return (
-    <div className="max-w-[1600px] mx-auto flex justify-between items-center py-2">
+    <div className="relative z-50 max-w-[1600px] mx-auto flex justify-between items-center py-2">
       <div className="flex items-center">
         <NavigationMenu viewport={false}>
           <NavigationMenuList>
