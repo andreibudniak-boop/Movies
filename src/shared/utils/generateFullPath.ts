@@ -1,9 +1,7 @@
-export function generateFullPath(path: string): string {
+export function generateFullPath(
+  path?: string,
+  size: 'original' | 'w1280' | 'w780' | 'w500' = 'w1280'
+): string {
   if (!path) return '';
-
-  if (path.startsWith('/original') || path.includes('/w200')) {
-    return `https://image.tmdb.org/t/p${path}`;
-  }
-
-  return `https://image.tmdb.org/t/p/original${path}`;
+  return `https://image.tmdb.org/t/p/${size}${path}`;
 }

@@ -10,7 +10,7 @@ type TvsLayoutProps = {
 
 export function TvsLayout({ title, listType }: TvsLayoutProps) {
   return (
-    <div>
+    <div className="max-w-[1400px] m-auto">
       <ListTitle title={title} />
       <div className="flex flex-row">
         <div className="flex flex-col shadow">

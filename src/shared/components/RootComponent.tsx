@@ -6,7 +6,7 @@ export function RootComponent() {
     <>
       <Menu />
       <hr />
-      <div className="max-w-[1400px] m-auto">
+      <div className="">
         <Outlet />
       </div>
     </>
