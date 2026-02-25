@@ -22,7 +22,7 @@ export function MediaDetails({ media }: MediaDetailsProps) {
 
   return (
     <div
-      className="relative w-full h-screen border-b text-white flex flex-col"
+      className="relative w-full h-[calc(100vh-52px)] border-b text-white flex flex-col"
       style={{
         backgroundImage: backdropUrl ? `url(${backdropUrl})` : undefined,
         backgroundSize: 'cover',
