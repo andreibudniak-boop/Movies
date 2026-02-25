@@ -6,14 +6,17 @@ type Genre = {
 type GenreLinksProps = {
   genres: Genre[];
 };
+import { Link } from '@tanstack/react-router';
 
 export const GenreLinks = ({ genres }: GenreLinksProps) => (
   <>
     {genres.map((genre, index) => (
       <span key={genre.id}>
-        <a href={`/${genre.id}`}>{genre.name}</a>
-        {index < genres.length - 1 && ', '}
+        <Link to="/">{genre.name}</Link>
+        {index !== genres.length - 1 && ', '}
       </span>
     ))}
   </>
 );
+
+//will be done later

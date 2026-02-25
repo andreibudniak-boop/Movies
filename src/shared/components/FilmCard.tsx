@@ -2,7 +2,7 @@ import type { CardType } from '@/shared/types/types';
 
 import { Link } from '@tanstack/react-router';
 import RatingCircle from './icons/RatingCircle';
-import { generateFullPath } from '../utils/generateFullPath';
+import { generateFullLink } from '../utils/generateFullLink';
 
 function FilmCard(item: CardType) {
   const formattedDate = new Date(item.date)
@@ -19,7 +19,7 @@ function FilmCard(item: CardType) {
       <div className="max-w-[180px] mt-[10px] rounded-xl overflow-hidden shadow flex flex-col hover:scale-[1.01] transition-transform  ">
         <Link to={item.link} preload="intent">
           <img
-            src={generateFullPath(item.poster_path)}
+            src={generateFullLink(item.poster_path)}
             alt=""
             className="w-full w-[180px] h-auto block cursor-pointer"
           />

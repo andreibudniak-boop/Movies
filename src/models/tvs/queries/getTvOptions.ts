@@ -3,13 +3,12 @@ import type { TvId } from '../api/tv';
 import { tvKeys } from './tvKeys';
 import { fetchTv } from '../api/fetchTv';
 
-export function getTvOptions({
-  tvId,
-  language = 'en-US',
-}: {
+type TvOptionsProps = {
   tvId: string;
   language?: string;
-}): UseQueryOptions<TvId> {
+};
+
+export function getTvOptions({ tvId, language = 'en-US' }: TvOptionsProps): UseQueryOptions<TvId> {
   return {
     queryKey: tvKeys.tv({ id: tvId, language }),
     queryFn: () => fetchTv({ tvId, language }),
