@@ -1,0 +1,12 @@
+import { Outlet } from '@tanstack/react-router';
+import Menu from './Menu';
+
+export function RootComponent() {
+  return (
+    <>
+      <Menu />
+      <hr />
+      <Outlet />
+    </>
+  );
+}
