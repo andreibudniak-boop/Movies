@@ -1,21 +1,24 @@
-import { generateFullPath } from '@/shared/utils/generateFullPath';
+import { generateFullLink } from '@/shared/utils/generateFullLink';
 import { GenreLinks } from '@/shared/components/GenreLinks';
 import { Runtime } from '@/shared/components/Runtime';
 import RatingCircle from '@/shared/components/icons/RatingCircle';
 import { Button } from '@/shared/components/ui/button';
 import type { MediaDetailsType as IMediaDetails } from '../types/types';
-
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip';
+import { MediaActions } from './MediaActions';
+import dayjs from 'dayjs';
+import { Container } from './Container';
 interface MediaDetailsProps {
   media: IMediaDetails;
 }
 
 export function MediaDetails({ media }: MediaDetailsProps) {
-  const backdropUrl = media.backdropPath ? generateFullPath(media.backdropPath) : '';
+  const backdropUrl = media.backdropPath ? generateFullLink(media.backdropPath) : '';
   const posterUrl = media.posterPath
-    ? generateFullPath(media.posterPath)
+    ? generateFullLink(media.posterPath)
     : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 
-  const releaseYear = media.releaseDate ? media.releaseDate.slice(0, 4) : '';
+  const releaseYear = media.releaseDate ? dayjs(media.releaseDate).format('YYYY') : '';
 
   return (
     <div
@@ -28,7 +31,7 @@ export function MediaDetails({ media }: MediaDetailsProps) {
     >
       <div className="absolute inset-0 bg-black/70" />
 
-      <div className="relative z-10 py-[40px] flex max-w-[1400px] m-auto ">
+      <Container className="relative z-10 py-[40px] flex ">
         <img src={posterUrl} alt="poster" className="w-[300px] h-auto rounded-lg shadow-xl" />
 
         <div className="flex flex-col justify-center pl-[40px] max-w-[800px]">
@@ -41,7 +44,7 @@ export function MediaDetails({ media }: MediaDetailsProps) {
             <div className="mt-3 flex items-center gap-4 text-white/80 flex-wrap">
               <span className="border border-white/50 px-2 py-[2px] text-sm rounded">PG-13</span>
 
-              {media.releaseDate && <span>{media.releaseDate.replaceAll('-', '/')}</span>}
+              {media.releaseDate && <span>{dayjs(media.releaseDate).format('YYYY/MM/DD')}</span>}
 
               <GenreLinks genres={media.genres} />
 
@@ -81,59 +84,22 @@ export function MediaDetails({ media }: MediaDetailsProps) {
 
             <div className="pl-10">
               <Button variant="my">
-                What's your Vibe{' '}
-                <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/40 text-xs font-bold">
-                  i
-                </span>
+                What's your Vibe
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/40 text-xs font-bold">
+                      i
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Additional info</p>
+                  </TooltipContent>
+                </Tooltip>
               </Button>
             </div>
           </div>
 
-          <div>
-            <ul className="pt-5 flex items-center gap-3 flex-wrap">
-              <li>
-                <Button variant="tmdbCircle" size="icon-xl">
-                  <img
-                    className="w-4 h-4"
-                    src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-159-thumbnails-list-white-c260ea972eebf812289fd3c41d0d2c1dff33ecbcd62be13fba8eeaf9de173789.svg"
-                    alt=""
-                  />
-                </Button>
-              </li>
-              <li>
-                <Button variant="tmdbCircle" size="icon-xl">
-                  <img
-                    className="w-4 h-4"
-                    src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-13-heart-white-28d2cc2d6418c5047efcfd2438bfc5d109192671263c270993c05f130cc4584e.svg"
-                    alt=""
-                  />
-                </Button>
-              </li>
-              <li>
-                <Button variant="tmdbCircle" size="icon-xl">
-                  <img
-                    className="w-4 h-4"
-                    src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-73-bookmark-white-432e98d550b7e4c80b06272c49475b0db85a60f6fae450420713004b3c9d3ffd.svg"
-                    alt=""
-                  />
-                </Button>
-              </li>
-              <li>
-                <a
-                  href=""
-                  className="group inline-flex items-center gap-2 font-semibold text-white transition-colors duration-200 hover:text-gray-400 hover:underline underline-offset-4"
-                >
-                  <img
-                    src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg"
-                    alt=""
-                    className="w-5 h-5 filter brightness-0 invert transition duration-200 group-hover:opacity-70"
-                    aria-hidden="true"
-                  />
-                  Воспроизвести трейлер
-                </a>
-              </li>
-            </ul>
-          </div>
+          <MediaActions mediaId={media.id} />
 
           {media.tagline && <div className="pt-6 italic text-white/70">{media.tagline}</div>}
 
@@ -142,7 +108,7 @@ export function MediaDetails({ media }: MediaDetailsProps) {
             <p className="text-white/85 leading-relaxed">{media.overview}</p>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

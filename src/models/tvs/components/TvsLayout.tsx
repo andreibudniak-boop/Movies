@@ -2,6 +2,7 @@ import { ListTitle } from '@/shared/components/ListTitle';
 import type { TvListType } from '../api/tv';
 import { Filters } from '../components/Filters';
 import { Tvs } from './Tvs';
+import { Container } from '@/shared/components/Container';
 
 type TvsLayoutProps = {
   title: string;
@@ -10,7 +11,7 @@ type TvsLayoutProps = {
 
 export function TvsLayout({ title, listType }: TvsLayoutProps) {
   return (
-    <div className="max-w-[1400px] m-auto">
+    <Container>
       <ListTitle title={title} />
       <div className="flex flex-row">
         <div className="flex flex-col shadow">
@@ -18,6 +19,6 @@ export function TvsLayout({ title, listType }: TvsLayoutProps) {
         </div>
         <Tvs listType={listType} />
       </div>
-    </div>
+    </Container>
   );
 }

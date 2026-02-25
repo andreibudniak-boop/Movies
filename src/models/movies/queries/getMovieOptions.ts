@@ -3,13 +3,15 @@ import type { MovieId } from '../api/movie';
 import { movieKeys } from './movieKeys';
 import { fetchMovie } from '../api/fetchMovie';
 
+type MovieOptionsProps = {
+  movieId: string;
+  language?: string;
+};
+
 export function getMovieOptions({
   movieId,
   language = 'en-US',
-}: {
-  movieId: string;
-  language?: string;
-}): UseQueryOptions<MovieId> {
+}: MovieOptionsProps): UseQueryOptions<MovieId> {
   return {
     queryKey: movieKeys.movie({
       id: movieId,

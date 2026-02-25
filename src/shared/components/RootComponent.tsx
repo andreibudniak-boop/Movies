@@ -6,9 +6,7 @@ export function RootComponent() {
     <>
       <Menu />
       <hr />
-      <div className="">
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 }

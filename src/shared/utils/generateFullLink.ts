@@ -1,4 +1,4 @@
-export function generateFullPath(
+export function generateFullLink(
   path?: string,
   size: 'original' | 'w1280' | 'w780' | 'w500' = 'w1280'
 ): string {
