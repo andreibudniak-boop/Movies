@@ -5,6 +5,11 @@ export const movieKeys = {
 
   lists: () => [...movieKeys.all, 'list'] as const,
 
-  list: (params: { sort?: string; pagination?: number; language?: string; filters?: object }) =>
-    [...movieKeys.lists(), { ...params }] as const,
+  list: (params: {
+    type?: 'standard' | 'discover';
+    listType?: string;
+    pagination?: number;
+    language?: string;
+    filters?: string;
+  }) => [...movieKeys.lists(), { ...params }] as const,
 };
