@@ -1,17 +1,19 @@
 import { create } from 'zustand';
-import { initialFilters, type Filters } from '@/models/movies/queries/filterValues';
+import { initialMovieFilters, type MovieFilters } from '@/models/movies/queries/filterValues';
 
-type FilterStore = {
-  draftFilters: Filters;
-  appliedFilters: Filters;
-  setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
+import { initialTVFilters, type TVFilters } from '@/models/tvs/queries/filterValues';
+
+type MovieFilterStore = {
+  draftFilters: MovieFilters;
+  appliedFilters: MovieFilters;
+  setFilter: <K extends keyof MovieFilters>(key: K, value: MovieFilters[K]) => void;
   applyFilters: () => void;
   isDirty: () => boolean;
 };
 
-export const useFilterStore = create<FilterStore>((set, get) => ({
-  draftFilters: initialFilters,
-  appliedFilters: initialFilters,
+export const useMovieFilterStore = create<MovieFilterStore>((set, get) => ({
+  draftFilters: initialMovieFilters,
+  appliedFilters: initialMovieFilters,
 
   setFilter: (key, value) =>
     set((state) => ({
@@ -32,18 +34,37 @@ export const useFilterStore = create<FilterStore>((set, get) => ({
     const { draftFilters, appliedFilters } = get();
     return JSON.stringify(appliedFilters) !== JSON.stringify(draftFilters);
   },
+}));
 
-  // hasActiveFilters: () => {
-  //   const { appliedFilters } = get();
+type TVFilterStore = {
+  draftFilters: TVFilters;
+  appliedFilters: TVFilters;
+  setFilter: <K extends keyof TVFilters>(key: K, value: TVFilters[K]) => void;
+  applyFilters: () => void;
+  isDirty: () => boolean;
+};
 
-  //   return (Object.keys(appliedFilters) as Array<keyof Filters>).some((key) => {
-  //     const value = appliedFilters[key];
-  //     const initialValue = initialFilters[key];
+export const useTVFilterStore = create<TVFilterStore>((set, get) => ({
+  draftFilters: initialTVFilters,
+  appliedFilters: initialTVFilters,
 
-  //     if (Array.isArray(value) && Array.isArray(initialValue)) {
-  //       return JSON.stringify(value) !== JSON.stringify(initialValue);
-  //     }
-  //     return value !== initialValue;
-  //   });
-  // },
+  setFilter: (key, value) =>
+    set((state) => ({
+      draftFilters: {
+        ...state.draftFilters,
+        [key]: value,
+      },
+    })),
+
+  applyFilters: () =>
+    set((state) => ({
+      appliedFilters: {
+        ...state.draftFilters,
+      },
+    })),
+
+  isDirty: () => {
+    const { draftFilters, appliedFilters } = get();
+    return JSON.stringify(appliedFilters) !== JSON.stringify(draftFilters);
+  },
 }));

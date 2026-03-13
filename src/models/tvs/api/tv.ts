@@ -135,3 +135,19 @@ export type TvPage = {
   results: Tv[];
   nextPage?: number;
 };
+
+export type DiscoverParams = {
+  listType?: TvListType;
+  with_genres?: string;
+  'vote_average.gte'?: number;
+  'vote_average.lte'?: number;
+  'vote_count.gte'?: number;
+  'with_runtime.gte'?: number;
+  'with_runtime.lte'?: number;
+  include_adult?: boolean;
+  sort_by?: string;
+  'release_date.gte'?: string;
+  'release_date.lte'?: string;
+  page?: number;
+  language?: string;
+};

@@ -3,28 +3,46 @@ import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { ChevronDown } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
-import { useFilterStore } from '@/shared/store/store';
+import { useMovieFilterStore, useTVFilterStore } from '@/shared/store/store';
+import type { ListType } from '@/shared/types/types';
 
-export function SortDropdown() {
+export function SortDropdown({ type }: { type: ListType }) {
   const [isOpen, setIsOpen] = useState(false);
-  const draft = useFilterStore((state) => state.draftFilters);
-  const applied = useFilterStore((state) => state.appliedFilters);
-  const setFilter = useFilterStore((state) => state.setFilter);
 
-  const sortOptions = [
-    { value: 'popularity.asc', label: 'Популярности (возрастание)' },
-    { value: 'popularity.desc', label: 'Популярности (убывание)' },
-    { value: 'revenue.asc', label: 'Доходам (возрастание)' },
-    { value: 'revenue.desc', label: 'Доходам (убывание)' },
-    { value: 'primary_release_date.asc', label: 'Дате релиза (старые сначала)' },
-    { value: 'primary_release_date.desc', label: 'Дате релиза (новые сначала)' },
-    { value: 'title.asc', label: 'Названию (А-Я)' },
-    { value: 'title.desc', label: 'Названию (Я-А)' },
-    { value: 'vote_average.asc', label: 'Рейтингу (возрастание)' },
-    { value: 'vote_average.desc', label: 'Рейтингу (убывание)' },
-    { value: 'vote_count.asc', label: 'Кол-ву голосов (возрастание)' },
-    { value: 'vote_count.desc', label: 'Кол-ву голосов (убывание)' },
-  ];
+  const store = type === 'movie' ? useMovieFilterStore() : useTVFilterStore();
+
+  const draft = store.draftFilters;
+  const applied = store.appliedFilters;
+  const setFilter = store.setFilter;
+
+  const sortOptions =
+    type === 'movie'
+      ? [
+          { value: 'revenue.asc', label: 'Доходам (возрастание)' },
+          { value: 'revenue.desc', label: 'Доходам (убывание)' },
+          { value: 'primary_release_date.asc', label: 'Дате релиза (старые сначала)' },
+          { value: 'primary_release_date.desc', label: 'Дате релиза (новые сначала)' },
+          { value: 'title.asc', label: 'Названию (А-Я)' },
+          { value: 'title.desc', label: 'Названию (Я-А)' },
+          { value: 'popularity.asc', label: 'Популярности (возрастание)' },
+          { value: 'popularity.desc', label: 'Популярности (убывание)' },
+          { value: 'vote_average.asc', label: 'Рейтингу (возрастание)' },
+          { value: 'vote_average.desc', label: 'Рейтингу (убывание)' },
+          { value: 'vote_count.asc', label: 'Кол-ву голосов (возрастание)' },
+          { value: 'vote_count.desc', label: 'Кол-ву голосов (убывание)' },
+        ]
+      : [
+          { value: 'first_air_date.asc', label: 'Дате релиза (старые сначала)' },
+          { value: 'first_air_date.desc', label: 'Дате релиза (новые сначала)' },
+          { value: 'name.asc', label: 'Названию (А-Я)' },
+          { value: 'name.desc', label: 'Названию (Я-А)' },
+          { value: 'popularity.asc', label: 'Популярности (возрастание)' },
+          { value: 'popularity.desc', label: 'Популярности (убывание)' },
+          { value: 'vote_average.asc', label: 'Рейтингу (возрастание)' },
+          { value: 'vote_average.desc', label: 'Рейтингу (убывание)' },
+          { value: 'vote_count.asc', label: 'Кол-ву голосов (возрастание)' },
+          { value: 'vote_count.desc', label: 'Кол-ву голосов (убывание)' },
+        ];
 
   console.log(`draftFilters:${JSON.stringify(draft)}`);
   console.log(`appliedFilters:${JSON.stringify(applied)}`);

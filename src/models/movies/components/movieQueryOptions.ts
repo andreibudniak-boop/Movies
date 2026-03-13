@@ -2,7 +2,7 @@ import type { InfiniteQueryOptions } from '@/shared/components/InfiniteList';
 import type { MovieListType, MoviePage } from '../api/movie';
 import { movieKeys } from '../queries/movieKeys';
 import { fetchMovieList } from '../api/fetchMovieList';
-import { initialFilters, type Filters } from '../queries/filterValues';
+import { initialMovieFilters, type MovieFilters } from '../queries/filterValues';
 
 export function getMovieListOptions({
   listType,
@@ -11,14 +11,14 @@ export function getMovieListOptions({
 }: {
   listType: MovieListType;
   language?: string;
-  filters?: Filters;
+  filters?: MovieFilters;
 }): InfiniteQueryOptions<MoviePage> {
   const hasActiveFilters =
     filters &&
     Object.keys(filters).some((key) => {
-      const filterKey = key as keyof Filters;
+      const filterKey = key as keyof MovieFilters;
       const value = filters[filterKey];
-      const initialValue = initialFilters[filterKey];
+      const initialValue = initialMovieFilters[filterKey];
 
       if (Array.isArray(value) && Array.isArray(initialValue)) {
         return JSON.stringify(value) !== JSON.stringify(initialValue);

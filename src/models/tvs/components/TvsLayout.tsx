@@ -3,6 +3,7 @@ import type { TvListType } from '../api/tv';
 import { Filters } from '../components/Filters';
 import { Tvs } from './Tvs';
 import { Container } from '@/shared/components/Container';
+import { useTVFilterStore } from '@/shared/store/store';
 
 type TvsLayoutProps = {
   title: string;
@@ -10,6 +11,7 @@ type TvsLayoutProps = {
 };
 
 export function TvsLayout({ title, listType }: TvsLayoutProps) {
+  const appliedFilters = useTVFilterStore((state) => state.appliedFilters);
   return (
     <Container>
       <ListTitle title={title} />
@@ -17,7 +19,7 @@ export function TvsLayout({ title, listType }: TvsLayoutProps) {
         <div className="flex flex-col shadow">
           <Filters />
         </div>
-        <Tvs listType={listType} />
+        <Tvs listType={listType} filters={appliedFilters} />
       </div>
     </Container>
   );

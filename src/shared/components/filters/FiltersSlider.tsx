@@ -79,8 +79,7 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
 
   const sliderValue = mode === 'single' ? [value as number] : (value as [number, number]);
 
-  // Размер ползунка в пикселях
-  const thumbSize = 16; // w-4 = 16px
+  const thumbSize = 16;
   const thumbOffset = thumbSize / 2;
 
   return (
@@ -99,7 +98,6 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
               onValueChange={handleValueChange}
               minStepsBetweenThumbs={0}
             >
-              {/* Трек с отступами для ползунка */}
               <Slider.Track
                 className="relative bg-gray-200 rounded-full h-1 flex-1"
                 style={{
@@ -144,7 +142,6 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
                 </div>
               </Slider.Thumb>
 
-              {/* Второй ползунок только для режима range */}
               {mode === 'range' && (
                 <Slider.Thumb
                   className="
@@ -216,7 +213,6 @@ const FilterSlider: React.FC<FilterSliderProps> = ({
           </div>
         </div>
 
-        {/* Шкала с подписями - с учетом отступов */}
         <div className="relative w-full mt-2">
           <div
             className="relative w-full h-4"

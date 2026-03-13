@@ -3,13 +3,17 @@ import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { ChevronDown } from 'lucide-react';
 import FilterSlider from './FiltersSlider';
-import { useFilterStore } from '@/shared/store/store';
+import { useMovieFilterStore, useTVFilterStore } from '@/shared/store/store';
 import { GenresFilter } from './GenresFilter';
+import type { ListType } from '@/shared/types/types';
 
-export function FiltersDropdown() {
+export function FiltersDropdown({ type }: { type: ListType }) {
   const [isOpen, setIsOpen] = useState(false);
-  const draft = useFilterStore((state) => state.draftFilters);
-  const setFilter = useFilterStore((state) => state.setFilter);
+
+  const store = type === 'movie' ? useMovieFilterStore() : useTVFilterStore();
+
+  const draft = store.draftFilters;
+  const setFilter = store.setFilter;
 
   return (
     <div className="w-full mt-[12px]">
@@ -104,7 +108,7 @@ export function FiltersDropdown() {
         </div>
 
         <div className="w-full border border-t-0 bg-background  rounded-b-lg shadow-sm p-3">
-          <GenresFilter />
+          <GenresFilter type={type} />
         </div>
       </div>
     </div>

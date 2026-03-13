@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/shared/axiosCreate';
 import type { MovieListType, DiscoverParams } from './movie';
-import { initialFilters, type Filters } from '../queries/filterValues';
+import { initialMovieFilters, type MovieFilters } from '../queries/filterValues';
 
 export const fetchMovieList = async ({
   pageParam = 1,
@@ -12,7 +12,7 @@ export const fetchMovieList = async ({
   pageParam?: number;
   listType: MovieListType;
   language?: string;
-  filters?: Filters;
+  filters?: MovieFilters;
   useDiscover?: boolean;
 }) => {
   if (useDiscover) {
@@ -51,7 +51,7 @@ const fetchDiscoverMovies = async ({
 }: {
   pageParam: number;
   language: string;
-  filters?: Filters;
+  filters?: MovieFilters;
 }) => {
   const discoverParams: DiscoverParams = {
     language,
@@ -62,39 +62,39 @@ const fetchDiscoverMovies = async ({
 
   if (
     filters?.vote_average_gte !== undefined &&
-    filters?.vote_average_gte !== initialFilters.vote_average_gte
+    filters?.vote_average_gte !== initialMovieFilters.vote_average_gte
   ) {
     discoverParams['vote_average.gte'] = filters.vote_average_gte;
   }
   if (
     filters?.vote_average_lte !== undefined &&
-    filters?.vote_average_lte !== initialFilters.vote_average_lte
+    filters?.vote_average_lte !== initialMovieFilters.vote_average_lte
   ) {
     discoverParams['vote_average.lte'] = filters.vote_average_lte;
   }
 
   if (
     filters?.vote_count_gte !== undefined &&
-    filters?.vote_count_gte !== initialFilters.vote_count_gte
+    filters?.vote_count_gte !== initialMovieFilters.vote_count_gte
   ) {
     discoverParams['vote_count.gte'] = filters.vote_count_gte;
   }
 
   if (
     filters?.with_runtime_gte !== undefined &&
-    filters?.with_runtime_gte !== initialFilters.with_runtime_gte
+    filters?.with_runtime_gte !== initialMovieFilters.with_runtime_gte
   ) {
     discoverParams['with_runtime.gte'] = filters.with_runtime_gte;
   }
   if (
     filters?.with_runtime_lte !== undefined &&
-    filters?.with_runtime_lte !== initialFilters.with_runtime_lte
+    filters?.with_runtime_lte !== initialMovieFilters.with_runtime_lte
   ) {
     discoverParams['with_runtime.lte'] = filters.with_runtime_lte;
   }
 
   if (filters?.with_genres && filters.with_genres.length > 0) {
-    discoverParams.with_genres = filters.with_genres.join(',');
+    discoverParams.with_genres = filters.with_genres.join('|');
   }
 
   if (filters?.release_date_gte) {

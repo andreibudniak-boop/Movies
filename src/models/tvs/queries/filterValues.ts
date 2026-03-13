@@ -1,4 +1,4 @@
-export const initialMovieFilters: MovieFilters = {
+export const initialTVFilters: TVFilters = {
   include_adult: false,
   sort_by: 'popularity.desc',
   vote_average_lte: 10,
@@ -11,7 +11,7 @@ export const initialMovieFilters: MovieFilters = {
   release_date_lte: '',
 };
 
-export type MovieFilters = {
+export type TVFilters = {
   include_adult: boolean;
   sort_by: string;
   vote_average_lte: number;
