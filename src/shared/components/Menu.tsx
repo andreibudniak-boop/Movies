@@ -128,7 +128,7 @@ export default function Menu() {
         </NavigationMenu>
       </div>
       <div className="flex items-center">
-        <h2>profile</h2>
+        <h2 className="font-regular text-lg ">Profile</h2>
       </div>
     </div>
   );
