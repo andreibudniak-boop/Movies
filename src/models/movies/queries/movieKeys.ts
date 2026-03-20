@@ -1,3 +1,5 @@
+import type { MovieFilters } from './filterValues';
+
 export const movieKeys = {
   all: ['movies'] as const,
 
@@ -10,6 +12,6 @@ export const movieKeys = {
     listType?: string;
     pagination?: number;
     language?: string;
-    filters?: string;
+    filters?: MovieFilters;
   }) => [...movieKeys.lists(), { ...params }] as const,
 };

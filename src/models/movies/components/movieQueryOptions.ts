@@ -4,6 +4,27 @@ import { movieKeys } from '../queries/movieKeys';
 import { fetchMovieList } from '../api/fetchMovieList';
 import { initialMovieFilters, type MovieFilters } from '../queries/filterValues';
 
+function hasActiveMovieFilters(filters?: MovieFilters): boolean {
+  if (!filters) return false;
+
+  for (const key in initialMovieFilters) {
+    const value = filters[key as keyof MovieFilters];
+    const initialValue = initialMovieFilters[key as keyof MovieFilters];
+
+    if (Array.isArray(value) && Array.isArray(initialValue)) {
+      if (value.length !== initialValue.length) return true;
+
+      for (let i = 0; i < value.length; i++) {
+        if (value[i] !== initialValue[i]) return true;
+      }
+    } else {
+      if (value !== initialValue) return true;
+    }
+  }
+
+  return false;
+}
+
 export function getMovieListOptions({
   listType,
   language = 'en-US',
@@ -13,25 +34,14 @@ export function getMovieListOptions({
   language?: string;
   filters?: MovieFilters;
 }): InfiniteQueryOptions<MoviePage> {
-  const hasActiveFilters =
-    filters &&
-    Object.keys(filters).some((key) => {
-      const filterKey = key as keyof MovieFilters;
-      const value = filters[filterKey];
-      const initialValue = initialMovieFilters[filterKey];
-
-      if (Array.isArray(value) && Array.isArray(initialValue)) {
-        return JSON.stringify(value) !== JSON.stringify(initialValue);
-      }
-      return value !== initialValue;
-    });
+  const hasActiveFilters = hasActiveMovieFilters(filters);
 
   return {
     queryKey: movieKeys.list({
       type: hasActiveFilters ? 'discover' : 'standard',
       listType,
       language,
-      filters: hasActiveFilters ? JSON.stringify(filters) : undefined,
+      filters: hasActiveFilters ? filters : undefined,
     }),
     queryFn: ({ pageParam = 1 }) =>
       fetchMovieList({

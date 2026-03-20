@@ -90,17 +90,17 @@ export type MoviePage = {
 };
 
 export type DiscoverParams = {
-  listType?: MovieListType;
-  with_genres?: string;
-  'vote_average.gte'?: number;
-  'vote_average.lte'?: number;
-  'vote_count.gte'?: number;
-  'with_runtime.gte'?: number;
-  'with_runtime.lte'?: number;
-  include_adult?: boolean;
-  sort_by?: string;
-  'release_date.gte'?: string;
-  'release_date.lte'?: string;
-  page?: number;
-  language?: string;
+  listType: MovieListType;
+  with_genres: string;
+  'vote_average.gte': number;
+  'vote_average.lte': number;
+  'vote_count.gte': number;
+  'with_runtime.gte': number;
+  'with_runtime.lte': number;
+  include_adult: boolean;
+  sort_by: string;
+  'release_date.gte': string;
+  'release_date.lte': string;
+  page: number;
+  language: string;
 };

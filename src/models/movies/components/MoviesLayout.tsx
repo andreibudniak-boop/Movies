@@ -1,6 +1,6 @@
 import { ListTitle } from '@/shared/components/ListTitle';
 import type { MovieListType } from '../api/movie';
-import { Filters } from '../components/Filters';
+import { Filters } from './Filters/Filters';
 import { Movies } from './Movies';
 import { Container } from '@/shared/components/Container';
 import { useMovieFilterStore } from '@/shared/store/store';
@@ -16,7 +16,7 @@ export function MoviesLayout({ title, listType }: MoviesLayoutProps) {
     <Container>
       <ListTitle title={title} />
       <div className="flex flex-row">
-        <div className="flex flex-col shadow">
+        <div className="flex flex-col ">
           <Filters />
         </div>
         <Movies listType={listType} filters={appliedFilters} />

@@ -4,6 +4,27 @@ import { tvKeys } from '../queries/tvKeys';
 import { fetchTvList } from '../api/fetchTvList';
 import { initialTVFilters, type TVFilters } from '../queries/filterValues';
 
+function hasActiveTvFilters(filters?: TVFilters): boolean {
+  if (!filters) return false;
+
+  for (const key in initialTVFilters) {
+    const value = filters[key as keyof TVFilters];
+    const initialValue = initialTVFilters[key as keyof TVFilters];
+
+    if (Array.isArray(value) && Array.isArray(initialValue)) {
+      if (value.length !== initialValue.length) return true;
+
+      for (let i = 0; i < value.length; i++) {
+        if (value[i] !== initialValue[i]) return true;
+      }
+    } else {
+      if (value !== initialValue) return true;
+    }
+  }
+
+  return false;
+}
+
 export function getTvListOptions({
   listType,
   language = 'en-US',
@@ -13,24 +34,14 @@ export function getTvListOptions({
   language?: string;
   filters?: TVFilters;
 }): InfiniteQueryOptions<TvPage> {
-  const hasActiveFilters =
-    filters &&
-    Object.keys(filters).some((key) => {
-      const filterKey = key as keyof TVFilters;
-      const value = filters[filterKey];
-      const initialValue = initialTVFilters[filterKey];
+  const hasActiveFilters = hasActiveTvFilters(filters);
 
-      if (Array.isArray(value) && Array.isArray(initialValue)) {
-        return JSON.stringify(value) !== JSON.stringify(initialValue);
-      }
-      return value !== initialValue;
-    });
   return {
     queryKey: tvKeys.list({
       type: hasActiveFilters ? 'discover' : 'standard',
       listType,
       language,
-      filters: hasActiveFilters ? JSON.stringify(filters) : undefined,
+      filters: hasActiveFilters ? filters : undefined,
     }),
     queryFn: ({ pageParam = 1 }) =>
       fetchTvList({

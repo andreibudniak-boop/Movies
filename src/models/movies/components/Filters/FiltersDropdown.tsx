@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Button } from '@/shared/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/components/ui/select';
 import { ChevronDown } from 'lucide-react';
-import FilterSlider from './FiltersSlider';
-import { useMovieFilterStore, useTVFilterStore } from '@/shared/store/store';
+import FilterSlider from '@/shared/components/filters/FiltersSlider';
+import { useMovieFilterStore } from '@/shared/store/store';
 import { GenresFilter } from './GenresFilter';
-import type { ListType } from '@/shared/types/types';
 
-export function FiltersDropdown({ type }: { type: ListType }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function FiltersDropdown() {
+  const [isOpen, setIsOpen] = useState(true);
 
-  const store = type === 'movie' ? useMovieFilterStore() : useTVFilterStore();
+  const store = useMovieFilterStore();
 
   const draft = store.draftFilters;
   const setFilter = store.setFilter;
@@ -39,9 +44,7 @@ export function FiltersDropdown({ type }: { type: ListType }) {
 
           <Select
             value={draft.include_adult === true ? 'include adult' : 'execute adult'}
-            onValueChange={(value) =>
-              setFilter('include_adult', value === 'include adult' ? true : false)
-            }
+            onValueChange={(value) => setFilter('include_adult', value === 'include adult')}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Выберите сортировку" />
@@ -67,7 +70,6 @@ export function FiltersDropdown({ type }: { type: ListType }) {
             tickValues={[0, 5, 10]}
             mode="range"
             onValueChange={(value) => {
-              console.log(' array :', value);
               if (typeof value == 'object') {
                 setFilter('vote_average_gte', value[0]);
                 setFilter('vote_average_lte', value[1]);
@@ -84,7 +86,6 @@ export function FiltersDropdown({ type }: { type: ListType }) {
             tickValues={[0, 100, 200, 300, 400, 500]}
             mode="single"
             onValueChange={(value) => {
-              console.log('Minimum votes:', value);
               if (typeof value == 'number') setFilter('vote_count_gte', value);
             }}
           />
@@ -98,7 +99,6 @@ export function FiltersDropdown({ type }: { type: ListType }) {
             tickValues={[0, 120, 240, 360]}
             mode="range"
             onValueChange={(value) => {
-              console.log('runtime array:', value);
               if (typeof value == 'object') {
                 setFilter('with_runtime_gte', value[0]);
                 setFilter('with_runtime_lte', value[1]);
@@ -108,7 +108,7 @@ export function FiltersDropdown({ type }: { type: ListType }) {
         </div>
 
         <div className="w-full border border-t-0 bg-background  rounded-b-lg shadow-sm p-3">
-          <GenresFilter type={type} />
+          <GenresFilter />
         </div>
       </div>
     </div>

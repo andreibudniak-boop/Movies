@@ -1,6 +1,7 @@
 import { axiosInstance } from '@/shared/axiosCreate';
-import type { MovieListType, DiscoverParams } from './movie';
-import { initialMovieFilters, type MovieFilters } from '../queries/filterValues';
+import type { MovieListType } from './movie';
+import { type MovieFilters } from '../queries/filterValues';
+import { buildDiscoverParams } from './buildDiscoverParams';
 
 export const fetchMovieList = async ({
   pageParam = 1,
@@ -53,63 +54,7 @@ const fetchDiscoverMovies = async ({
   language: string;
   filters?: MovieFilters;
 }) => {
-  const discoverParams: DiscoverParams = {
-    language,
-    page: pageParam,
-    include_adult: filters?.include_adult,
-    sort_by: filters?.sort_by,
-  };
-
-  if (
-    filters?.vote_average_gte !== undefined &&
-    filters?.vote_average_gte !== initialMovieFilters.vote_average_gte
-  ) {
-    discoverParams['vote_average.gte'] = filters.vote_average_gte;
-  }
-  if (
-    filters?.vote_average_lte !== undefined &&
-    filters?.vote_average_lte !== initialMovieFilters.vote_average_lte
-  ) {
-    discoverParams['vote_average.lte'] = filters.vote_average_lte;
-  }
-
-  if (
-    filters?.vote_count_gte !== undefined &&
-    filters?.vote_count_gte !== initialMovieFilters.vote_count_gte
-  ) {
-    discoverParams['vote_count.gte'] = filters.vote_count_gte;
-  }
-
-  if (
-    filters?.with_runtime_gte !== undefined &&
-    filters?.with_runtime_gte !== initialMovieFilters.with_runtime_gte
-  ) {
-    discoverParams['with_runtime.gte'] = filters.with_runtime_gte;
-  }
-  if (
-    filters?.with_runtime_lte !== undefined &&
-    filters?.with_runtime_lte !== initialMovieFilters.with_runtime_lte
-  ) {
-    discoverParams['with_runtime.lte'] = filters.with_runtime_lte;
-  }
-
-  if (filters?.with_genres && filters.with_genres.length > 0) {
-    discoverParams.with_genres = filters.with_genres.join('|');
-  }
-
-  if (filters?.release_date_gte) {
-    discoverParams['release_date.gte'] = filters.release_date_gte;
-  }
-  if (filters?.release_date_lte) {
-    discoverParams['release_date.lte'] = filters.release_date_lte;
-  }
-
-  Object.keys(discoverParams).forEach((key) => {
-    if (discoverParams[key as keyof DiscoverParams] === undefined) {
-      delete discoverParams[key as keyof DiscoverParams];
-    }
-  });
-
+  const discoverParams = buildDiscoverParams({ language, pageParam, filters });
   const response = await axiosInstance.get('/discover/movie', {
     params: discoverParams,
   });
