@@ -2,10 +2,12 @@ import type { Tv, TvListType } from '../api/tv';
 import type { CardType } from '@/shared/types/types';
 import { InfiniteList } from '@/shared/components/InfiniteList';
 import { getTvListOptions } from './tvQueryOptions';
+import type { TVFilters } from '../queries/filterValues';
 
 type TvProps = {
   listType: TvListType;
   language?: string;
+  filters?: TVFilters;
 };
 
 const normalizeItem = (item: Tv): CardType => {
@@ -19,8 +21,8 @@ const normalizeItem = (item: Tv): CardType => {
   };
 };
 
-export function Tvs({ listType, language = 'en-US' }: TvProps) {
-  const tvListOptions = getTvListOptions({ listType, language });
+export function Tvs({ listType, language = 'en-US', filters }: TvProps) {
+  const tvListOptions = getTvListOptions({ listType, language, filters });
 
   return <InfiniteList<Tv> queryOptions={tvListOptions} normalizeItem={normalizeItem} />;
 }

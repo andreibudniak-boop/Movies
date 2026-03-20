@@ -1,3 +1,5 @@
+import type { TVFilters } from './filterValues';
+
 export const tvKeys = {
   all: ['tvs'] as const,
 
@@ -5,6 +7,11 @@ export const tvKeys = {
 
   lists: () => [...tvKeys.all, 'list'] as const,
 
-  list: (params: { sort?: string; pagination?: number; language?: string; filters?: object }) =>
-    [...tvKeys.lists(), { ...params }] as const,
+  list: (params: {
+    type?: 'standard' | 'discover';
+    listType?: string;
+    pagination?: number;
+    language?: string;
+    filters?: TVFilters;
+  }) => [...tvKeys.lists(), { ...params }] as const,
 };

@@ -2,10 +2,12 @@ import type { Movie, MovieListType } from '../api/movie';
 import { InfiniteList } from '@/shared/components/InfiniteList';
 import type { CardType } from '@/shared/types/types';
 import { getMovieListOptions } from './movieQueryOptions';
+import type { MovieFilters } from '../queries/filterValues';
 
 type MovieProps = {
   listType: MovieListType;
   language?: string;
+  filters: MovieFilters;
 };
 
 const normalizeItem = (item: Movie): CardType => {
@@ -19,7 +21,7 @@ const normalizeItem = (item: Movie): CardType => {
   };
 };
 
-export function Movies({ listType, language = 'en-US' }: MovieProps) {
-  const movieListOptions = getMovieListOptions({ listType, language });
+export function Movies({ listType, language = 'en-US', filters }: MovieProps) {
+  const movieListOptions = getMovieListOptions({ listType, language, filters });
   return <InfiniteList<Movie> queryOptions={movieListOptions} normalizeItem={normalizeItem} />;
 }

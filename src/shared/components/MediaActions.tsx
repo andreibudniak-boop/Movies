@@ -1,7 +1,6 @@
 import { Button } from './ui/button';
 //props is need for the future functionaluty
 export function MediaActions({ mediaId }: { mediaId: number }) {
-  console.log(mediaId);
   return (
     <ul className="pt-5 flex items-center gap-3 flex-wrap">
       <li>
