@@ -23,3 +23,5 @@ export interface MediaDetailsType {
   tagline?: string | null;
   runtime?: number;
 }
+
+export type ListType = 'tv' | 'movie';
